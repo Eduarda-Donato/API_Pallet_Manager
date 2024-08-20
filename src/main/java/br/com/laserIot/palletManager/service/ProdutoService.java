@@ -25,6 +25,9 @@ public class ProdutoService {
     }
 
     public void criar(ProdutoDTO produto){
+        if (produto.getEPC() == null){
+            throw new IllegalArgumentException("EPC não pode ser nulo ou vazio");
+        }
         ProdutoEntity produtoEntity = new ProdutoEntity(produto);
         produtoRepository.save(produtoEntity);
     }

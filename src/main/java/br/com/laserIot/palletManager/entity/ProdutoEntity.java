@@ -35,7 +35,7 @@ public class ProdutoEntity {
     private Integer count;
 
     @Column(nullable = false)
-    private Integer EPC;
+    private String EPC;
 
     public ProdutoEntity(ProdutoDTO produto){
         BeanUtils.copyProperties(produto,this);
