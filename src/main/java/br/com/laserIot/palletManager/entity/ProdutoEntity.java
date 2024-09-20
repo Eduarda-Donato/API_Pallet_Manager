@@ -1,5 +1,7 @@
 package br.com.laserIot.palletManager.entity;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.BeanUtils;
 
 import br.com.laserIot.palletManager.DTO.ProdutoDTO;
@@ -22,7 +24,6 @@ import lombok.Setter;
 @Entity
 @Table(name="PM_PRODUTO", schema = "pallet_manager")
 public class ProdutoEntity {
-
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,15 +32,22 @@ public class ProdutoEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column
-    private Integer count;
+    @Column(nullable = false)
+    private LocalDate dataProduction;
+
+    @Column()
+    private LocalDate dataValidity;
+
+    @Column()
+    private double weight;
 
     @Column(nullable = false)
-    private String EPC;
+    private String supplier;
 
-    public ProdutoEntity(ProdutoDTO produto){
-        BeanUtils.copyProperties(produto,this);
-    }
-
+    @Column(nullable = false)
+    private int countProductPack;
     
+    public ProdutoEntity(ProdutoDTO pallet){
+        BeanUtils.copyProperties(pallet,this);
+    } 
 }

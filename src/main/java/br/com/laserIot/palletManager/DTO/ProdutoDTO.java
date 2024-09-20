@@ -7,17 +7,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProdutoDTO {
+    
     private Long id;
     private String name;
-    private Integer count;
-    private String EPC;
+    private LocalDate dataProduction;
+    private LocalDate dataValidity;
+    private double weight;
+    private String supplier;
+    private int countProductPack;
 
     public ProdutoDTO(ProdutoEntity produto){
-        BeanUtils.copyProperties(produto,this);
+        BeanUtils.copyProperties(produto, this);
     }
-
 }

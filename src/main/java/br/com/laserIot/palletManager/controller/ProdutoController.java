@@ -4,45 +4,49 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.com.laserIot.palletManager.DTO.ProdutoDTO;
 import br.com.laserIot.palletManager.service.ProdutoService;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-
-
-
-
 @RestController
 @RequestMapping("/produto")
 public class ProdutoController {
+    
     @Autowired
-    ProdutoService produtoService;
+    private ProdutoService produtoService;
 
+    // Listar todos os produtos
     @GetMapping
-    public List<ProdutoDTO> listarTodos(){
+    public List<ProdutoDTO> listarTodos() {
         return produtoService.listarTodos();
     }
 
+    // Buscar um produto por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoDTO> buscarPorId(@PathVariable Long id) {
+        ProdutoDTO produto = produtoService.buscarPorId(id);
+        return ResponseEntity.ok(produto);
+    }
+
+    // Inserir um novo produto
     @PostMapping
-    public void inserir(@RequestBody ProdutoDTO produto){
+    public ResponseEntity<Void> inserir(@RequestBody ProdutoDTO produto) {
         produtoService.criar(produto);
+        return ResponseEntity.ok().build(); // Retorna 200 (OK)
     }
 
-    @PutMapping
-    public ProdutoDTO alterar(@RequestBody ProdutoDTO produto){
-        return produtoService.alterar(produto);
+    // Alterar um produto existente
+    @PutMapping("/{id}")
+    public ResponseEntity<ProdutoDTO> alterar(@PathVariable Long id, @RequestBody ProdutoDTO produto) {
+        produto.setId(id); // Certifica-se de que o ID é o mesmo da URL
+        ProdutoDTO produtoAlterado = produtoService.alterar(produto);
+        return ResponseEntity.ok(produtoAlterado);
     }
 
+    // Excluir um produto
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id){
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
         produtoService.excluir(id);
         return ResponseEntity.ok().build();
     }
